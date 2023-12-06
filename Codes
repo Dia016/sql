@@ -1,0 +1,217 @@
+Concepts covered
+
+How does the syntax of a SELECT statement look?
+
+SELECT column1, column2, ...
+FROM table_name
+WHERE condition
+;
+
+
+What do the keywords / clauses of a SQL statement shown above do?
+
+FROM: Specifies from which table to get the data. The clause can include optional JOIN subclauses to specify the rules for joining tables.
+[Optional Clause] WHERE : Specifies which rows to retrieve.
+
+Why is there a semicolon after the SQL statements?
+
+Some database systems require a semicolon at the end of each SQL statement for execution. 
+It is a standard way to separate one SQL statement from another which allows more than one SQL statement to be executed in the same call to the server. 
+So, it is good practice to use a semicolon at the end of each SQL statement.
+
+
+DATA:  https://data.sfgov.org/Culture-and-Recreation/Film-Locations-in-San-Francisco/yitu-d5am
+
+
+ask A: Exploring the Database
+Let us first explore the SanFranciscoFilmLocations database using the Datasette tool:
+
+SELECT * FROM FilmLocations;
+
+FilmLocations(
+    Title:              titles of the films, 
+    ReleaseYear:        time of public release of the films, 
+    Locations:          locations of San Francisco where the films were shot, 
+    FunFacts:           funny facts about the filming locations, 
+    ProductionCompany:  companies who produced the films, 
+    Distributor:        companies who distributed the films, 
+    Director:           people who directed the films, 
+    Writer:             people who wrote the films, 
+    Actor1:             person 1 who acted in the films, 
+    Actor2:             person 2 who acted in the films, 
+    Actor3:             person 3 who acted in the films
+)
+
+SELECT Title, Director, Writer FROM FilmLocations;
+
+SELECT Title, ReleaseYear, Locations FROM FilmLocations WHERE ReleaseYear>=2001;
+
+Retrieve the fun facts and filming locations of all films.
+SELECT Locations, FunFacts FROM FilmLocations;
+
+Retrieve the names of all films released in the 20th century and before (release years before 2000 including 2000) that, along with filming locations and release years
+SELECT Title, ReleaseYear, Locations FROM FilmLocations WHERE ReleaseYear<=2000;
+
+Retrieve the names, production company names, filming locations, and release years of the films which are not written by James Cameron.
+SELECT Title, ProductionCompany, Locations, ReleaseYear FROM FilmLocations WHERE Writer<>"James Cameron";
+
+COUNT is a built-in database function that retrieves the number of rows that match the query criteria.
+For example, get the total number of rows in a given table, select COUNT(*) from tablename. Let's say you create a table called MEDALS which has a column called COUNTRY, 
+and you want to retrieve the number of rows where the medal recipient is from Canada. You can issue a query like this:
+
+SELECT COUNT(COUNTRY) FROM MEDALS WHERE COUNTRY='CANADA';
+
+Retrieve the number of locations of the films which are directed by Woody Allen.
+SELECT COUNT( Locations ) FROM FilmLocations WHERE Director="Woody Allen";
+
+DISTINCT is used to remove duplicate values from a result set. Example, to retrieve unique values in a column, select DISTINCT columnname from tablename.
+In the MEDALS table mentioned earlier, a country may have received a gold medal multiple times. Example, retrieve the list of unique countries that received gold medals.
+That is, removing all duplicate values of the same country.
+
+SELECT DISTINCT COUNTRY FROM MEDALS WHERE MEDALTYPE = 'GOLD';
+
+ LIMIT is used for restricting the number of rows retrieved from the database. Example, retrieve just the first 10 rows in a table. 
+Select * from tablename LIMIT 10. This can be very useful to examine the results set by looking at just a few rows instead of retrieving the entire result set which may be very large. 
+Example, retrieve just a few rows in the MEDALS table for a particular year. 
+
+Select * from MEDALS where YEAR = 2018 LIMIT 5; 
+
+Objectives
+After completing this lab, you will be able to:
+
+
+Retrieve the number of rows that match a query criteria
+Remove duplicate values from a result set and return the unique values
+Restrict the number of rows retrieved from a table
+
+Exercise 1: COUNT
+In this exercise, you will first go through some examples of using COUNT in queries and then solve some exercise problems by using it.
+
+In this example, suppose we want to count the number of records or rows of the “FilmLocations” table.
+SELECT COUNT(*) FROM FilmLocations;
+
+In this example, now we want to count the number of locations of the films. 
+But we also want to restrict the output resultset in such a way that we only retrieve the number of locations of the films written by a certain writer.
+Retrieve the number of locations of the films which are written by James Cameron.
+
+SELECT COUNT(Locations) FROM FilmLocations WHERE Writer="James Cameron";
+
+Retrieve the number of films shot at Russian Hill.
+SELECT Count(Title) FROM FilmLocations WHERE Locations="Russian Hill";
+
+Retrieve the number of rows having a release year older than 1950 from the “FilmLocations” table.
+SELECT Count(*) FROM FilmLocations WHERE ReleaseYear<1950;
+
+
+Concepts covered
+How does the syntax of an INSERT statement look?
+INSERT INTO table_name (column1, column2, ... )
+VALUES (value1, value2, ... )
+
+
+How does the syntax of an UPDATE statement look?
+UPDATE table_name
+SET column1 = value1, column2 = value2, ...
+WHERE condition
+
+
+How does the syntax of a DELETE statement look?
+DELETE FROM table_name
+WHERE condition
+
+______________________________________________________________________________________________________________________________________________________________________________
+
+ an open source tool for exploring and publishing data. You can visit the Datasette GitHub repository here.
+
+https://github.com/simonw/datasette
+
+Instructor (
+    ins_id:     unique identification number of the instructors,    
+    lastname:   last name of the instructors,
+    firstname:  first name of the instructors,
+    city:       name of the cities where instructors are located,
+    country:    two-letter country code of the countries where instructors are located
+)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Exercise 1: INSERT
+
+In this example, suppose we want to insert a new single row into the Instructor table.
+Problem:
+Insert a new instructor record with id 4 for Sandip Saha who lives in Edmonton, CA into the “Instructor” table.
+
+INSERT INTO Instructor(ins_id, lastname, firstname, city, country)
+VALUES(4, 'Saha', 'Sandip', 'Edmonton', 'CA');
+
+Copy the solution code above by clicking on the little copy button on the bottom right of the codeblock below and paste it to the textbox of the Datasette tool. Then click Submit query.
+Copy the code below by clicking on the little copy button on the bottom right of the codeblock below and paste it to the textbox of the Datasette tool. Then click Submit query.
+
+SELECT * FROM Instructor;
+
+In this example, suppose we want to insert some new multiple rows into the Instructor table.
+Problem
+Insert two new instructor records into the “Instructor” table. First record with id 5 for John Doe who lives in Sydney, AU. Second record with id 6 for Jane Doe who lives in Dhaka, BD.
+
+INSERT INTO Instructor(ins_id, lastname, firstname, city, country)
+VALUES(5, 'Doe', 'John', 'Sydney', 'AU'), (6, 'Doe', 'Jane', 'Dhaka', 'BD');
+
+Copy the solution code above by clicking on the little copy button on the bottom right of the codeblock below and paste it to the textbox of the Datasette tool. Then click Submit query.
+Copy the code below by clicking on the little copy button on the bottom right of the codeblock below and paste it to the textbox of the Datasette tool. Then click Submit query.
+
+SELECT * FROM Instructor;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Insert a new instructor record with id 7 for Antonio Cangiano who lives in Vancouver, CA into the “Instructor” table.
+
+INSERT INTO Instructor(ins_id, lastname, firstname, city, country)
+VALUES(7, 'Cangiano', 'Antonio', 'Vancouver', 'CA');
+SELECT * FROM Instructor;
+
+Insert two new instructor records into the “Instructor” table. First record with id 8 for Steve Ryan who lives in Barlby, GB. Second record with id 9 for Ramesh Sannareddy who lives in Hyderabad, IN.
+
+INSERT INTO Instructor(ins_id, lastname, firstname, city, country)
+VALUES(8, 'Ryan', 'Steve', 'Barlby', 'GB'), (9, 'Sannareddy', 'Ramesh', 'Hyderabad', 'IN');
+SELECT * FROM Instructor;
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Exercise 2: UPDATE
+In this example, we want to update one column of an existing row of the table.
+Problem:
+Update the city for Sandip to Toronto.
+
+UPDATE Instructor 
+SET city='Toronto' 
+WHERE firstname="Sandip";
+
+Update the city and country for Doe with id 5 to Dubai and AE respectively.
+UPDATE Instructor 
+SET city='Dubai', country='AE' 
+WHERE ins_id=5;
+
+Update the city of the instructor record to Markham whose id is 1.
+UPDATE Instructor
+set city="Markham"
+where ins_id=1;
+SELECT * FROM Instructor;
+
+Update the city and country for Sandip with id 4 to Dhaka and BD respectively.
+UPDATE Instructor
+set city="Dhaka", country="BD", firstname="Sandip"
+where ins_id=4;
+SELECT * FROM Instructor;
+
+Exercise 3: DELETE
+Remove the instructor record of Hima.
+
+DELETE FROM Instructor
+where ins_id=3;
+SELECT * FROM Instructor;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Summary & Highlights
+
+You can use Data Manipulation Language (DML) statements to read and modify data. 
+The search condition of the WHERE clause uses a predicate to refine the search. 
+COUNT, DISTINCT, and LIMIT are expressions that are used with SELECT statements. 
+INSERT, UPDATE, and DELETE are DML statements for populating and changing tables. 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
