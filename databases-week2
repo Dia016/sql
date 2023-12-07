@@ -1,0 +1,316 @@
+The relational model is the most used data model for databases because this model allows for data independence.
+  Data is stored in a simple data structure. Tables: this provides logical data independence, physical data independence, and physical storage independence.
+  An entity relationship data model, or ER data model, is an alternative to a relational data model
+   Attributes are connected to exactly one entity.
+
+    the relational model is logical and physical data independence and storage independence.
+    Entities are independent objects which can have multiple characteristics called attributes
+
+ Common data types include characters such as car and VAR char, numbers such as integer and decimal, and timestamps including date and time. 
+   A primary key uniquely identifies a specific row in a table and prevents duplication of data
+
+   SQL Statements are used for interacting with Entities (that is, tables), Attributes (that is, columns) and their tuples (or rows with data values) in relational databases. 
+   SQL statements fall into two different categories: Data Definition Language statements and Data Manipulation Language statements. 
+   
+   Data Definition Language (or DDL) statements are used to define, change, or drop database objects such as tables. 
+   Common DDL statement types include  CREATE, ALTER, TRUNCATE, and DROP. 
+            CREATE: which is used for creating tables and defining its columns; 
+            ALTER: is used for altering tables including adding and dropping columns and modifying their datatypes; 
+           TRUNCATE: is used for deleting data in a table but not the table itself;
+           DROP: is used for deleting tables. 
+           
+  Data Manipulation Language (or DML) statements are used to read and modify data in tables.
+  These are also sometimes referred to as CRUD operations, that is, Create, Read, Update and Delete rows in a table.
+  Common DML statement types include INSERT, SELECT, UPDATE, and DELETE. 
+          INSERT: is used for inserting a row or several rows of data into a table; 
+          SELECT: reads or selects row or rows from a table;
+          UPDATE: edits row or rows in a table;
+          And DELETE: removes a row or rows of data from a table. 
+
+
+  DDL or Data Definition Language statements are used for defining or changing objects in a database such as tables.
+            And DML or Data Manipulation Language statements are used for manipulating or working with data in tables. 
+
+  To create the Author table, issue the following command
+            CREATE TABLE author ( author_id CHAR(2) PRIMARY KEY NOT NULL, lastname VARCHAR(15) NOT NULL, firstname VARCHAR(15) NOT NULL, email VARCHAR(40), city VARCHAR(15),
+                       Note that the Author_ID is the Primary Key. 
+                                 This constraint prevents duplicate values in the table.
+                                 Also note that Last Name and First Name have the constraint NOT NULL. 
+                                 This ensures that these fields cannot contain a NULL value, since an author must have a name
+
+ The ALTER TABLE statement changes the structure of an existing table, for example, to add, modify, or drop columns. 
+ The DROP TABLE statement deletes an existing table.
+The TRUNCATE TABLE statement deletes all rows of data in a table.
+
+
+
+  Objective(s)
+
+Learn ALTER TABLE statement and syntax
+Learn TRUNCATE statements and syntax
+Examples of ALTER and TRUNCATE statements
+
+ALTER TABLE
+ALTER TABLE statements used to add or remove columns from a table, to modify the data type of columns, to add or remove keys, and to add or remove constraints. 
+The syntax of the ALTER TABLE statement is:
+
+ADD COLUMN syntax
+ALTER TABLE table_name
+ADD COLUMN column_name data_type column_constraint;
+
+ALTER TABLE author 
+   ADD COLUMN telephone_number BIGINT;
+
+ALTER TABLE column syntax
+ALTER TABLE table_name CHANGE column_name  
+   column_name VARCHAR(20);
+
+ALTER TABLE author CHANGE telephone_number 
+   telephone_number CHAR(20);
+
+TRUNCATE Table
+TRUNCATE TABLE statement are used to delete all of the rows in a table. The syntax of the statement is:
+TRUNCATE TABLE table_name;
+TRUNCATE TABLE author;
+
+__________________________________________________________________________________________________________________
+Here we will look at some examples to create and drop tables.
+the general syntax to create a table:
+
+create table TABLENAME (
+COLUMN1 datatype,
+COLUMN2 datatype,
+COLUMN3 datatype,
+…
+);
+
+Software Used in this Lab
+In this lab, you will use MySQL. MySQL is a Relational Database Management System (RDBMS) designed to efficiently store, manipulate, and retrieve data.
+Database Used in this Lab
+Mysql_learners database has been used in this lab.
+
+Exercise
+
+
+we will learn some commonly used DDL (Data Definition Language) statements of SQL. 
+First you will learn the CREATE statement, which is used to create a new table in a database. 
+Next, you will learn the ALTER statement which is used to add, delete, or modify columns in an existing table. 
+Then, you will learn the TRUNCATE statement which is used to remove all rows from an existing table without deleting the table itself. 
+Lastly, you will learn the DROP statement which is used to delete an existing table in a database.
+
+How does the syntax of a CREATE statement look?
+
+CREATE TABLE table_name (
+    column1 datatype,
+    column2 datatype,
+    column3 datatype,
+   ....
+);
+
+How does the syntax of an ALTER statement look?
+
+ALTER TABLE table_name
+ADD COLUMN column_name data_type column_constraint;
+ALTER TABLE table_name
+DROP COLUMN column_name;
+ALTER TABLE table_name
+ALTER COLUMN column_name SET DATA TYPE data_type;
+ALTER TABLE table_name
+CHANGE current_column_name new_column_name;
+
+How does the syntax of a TRUNCATE statement look?
+TRUNCATE TABLE table_name;
+
+How does the syntax of a DROP statement look?
+DROP TABLE table_name;
+
+ we will use the CREATE statement to create two new tables using Db2.
+
+You need to create two tables, PETSALE and PET. To create the two tables PETSALE and PET, copy the code below and paste it to the textarea of the SQL page. Click Go.
+
+CREATE TABLE PETSALE (
+    ID INTEGER NOT NULL,
+    PET CHAR(20),
+    SALEPRICE DECIMAL(6,2),
+    PROFIT DECIMAL(6,2),
+    SALEDATE DATE
+    );
+    
+CREATE TABLE PET (
+    ID INTEGER NOT NULL,
+    ANIMAL VARCHAR(20),
+    QUANTITY INTEGER
+    );
+
+Now insert some records into the two newly created tables and show all the records of the two tables. 
+                                 
+INSERT INTO PETSALE VALUES
+    (1,'Cat',450.09,100.47,'2018-05-29'),
+    (2,'Dog',666.66,150.76,'2018-06-01'),
+    (3,'Parrot',50.00,8.9,'2018-06-04'),
+    (4,'Hamster',60.60,12,'2018-06-11'),
+    (5,'Goldfish',48.48,3.5,'2018-06-14');
+    
+INSERT INTO PET VALUES
+    (1,'Cat',3),
+    (2,'Dog',4),
+    (3,'Hamster',2);
+    
+SELECT * FROM PETSALE;
+SELECT * FROM PET;
+
+In this exercise, you will use the ALTER statement to add, delete, or modify columns in two of the existing tables created in exercise 1.
+
+Task A: ALTER using ADD COLUMN
+Add a new QUANTITY column to the PETSALE table and show the altered table. Copy the code below and paste it to the textarea of the SQL page. 
+ALTER TABLE PETSALE
+ADD COLUMN QUANTITY INTEGER;
+SELECT * FROM PETSALE;
+
+Now update the newly added QUANTITY column of the PETSALE table with some values and show all the records of the table.
+                                 
+UPDATE PETSALE SET QUANTITY = 9 WHERE ID = 1;
+UPDATE PETSALE SET QUANTITY = 3 WHERE ID = 2;
+UPDATE PETSALE SET QUANTITY = 2 WHERE ID = 3;
+UPDATE PETSALE SET QUANTITY = 6 WHERE ID = 4;
+UPDATE PETSALE SET QUANTITY = 24 WHERE ID = 5;
+SELECT * FROM PETSALE;
+
+Task B: ALTER using DROP COLUMN
+Delete the PROFIT column from the PETSALE table and show the altered table. 
+                                 
+ALTER TABLE PETSALE
+DROP COLUMN PROFIT;
+SELECT * FROM PETSALE;
+
+Task C: ALTER using ALTER COLUMN
+Change the data type to VARCHAR(20) type of the column PET of the table PETSALE and show the altered table. 
+
+ALTER TABLE PETSALE CHANGE PET  PET VARCHAR(20);
+SELECT * FROM PETSALE;
+
+Task D: ALTER using RENAME COLUMN
+Rename the column PET to ANIMAL of the PETSALE table and show the altered table.
+                                 
+ALTER TABLE `PETSALE` CHANGE `PET` `ANIMAL` varchar(20);
+SELECT * FROM PETSALE;
+
+In this exercise, you will use the TRUNCATE statement to remove all rows from an existing table created in exercise 1 without deleting the table itself.
+Remove all rows from the PET table and show the empty table.
+                                 
+TRUNCATE TABLE PET ;
+SELECT * FROM PET;
+
+In this exercise, you will use the DROP statement to delete an existing table created in exercise 1.
+Delete the PET table and verify if the table still exists or not (SELECT statement won’t work if a table doesn’t exist).
+
+DROP TABLE PET;
+SELECT * FROM PET;
+
+
+    *************************************************************************************
+
+    CREATE TABLE PETSALE (
+    ID INTEGER NOT NULL,
+    PET CHAR(20),
+    SALEPRICE DECIMAL(6,2),
+    PROFIT DECIMAL(6,2),
+    SALEDATE DATE
+    );
+    
+CREATE TABLE PET (
+    ID INTEGER NOT NULL,
+    ANIMAL VARCHAR(20),
+    QUANTITY INTEGER
+    );
+
+    INSERT INTO PETSALE VALUES
+    (1,'Cat',450.09,100.47,'2018-05-29'),
+    (2,'Dog',666.66,150.76,'2018-06-01'),
+    (3,'Parrot',50.00,8.9,'2018-06-04'),
+    (4,'Hamster',60.60,12,'2018-06-11'),
+    (5,'Goldfish',48.48,3.5,'2018-06-14');
+    
+INSERT INTO PET VALUES
+    (1,'Cat',3),
+    (2,'Dog',4),
+    (3,'Hamster',2);
+    
+SELECT * FROM PETSALE;
+SELECT * FROM PET;
+      
+ALTER TABLE PETSALE
+ADD COLUMN QUANTITY INTEGER;
+SELECT * FROM PETSALE;
+                                 
+UPDATE PETSALE SET QUANTITY = 9 WHERE ID = 1;
+UPDATE PETSALE SET QUANTITY = 3 WHERE ID = 2;
+UPDATE PETSALE SET QUANTITY = 2 WHERE ID = 3;
+UPDATE PETSALE SET QUANTITY = 6 WHERE ID = 4;
+UPDATE PETSALE SET QUANTITY = 24 WHERE ID = 5;
+SELECT * FROM PETSALE;
+
+ALTER TABLE PETSALE
+DROP COLUMN PROFIT;
+SELECT * FROM PETSALE;
+
+ALTER TABLE PETSALE CHANGE PET  PET VARCHAR(20);
+SELECT * FROM PETSALE;
+                                 
+ALTER TABLE `PETSALE` CHANGE `PET` `ANIMAL` varchar(20);
+SELECT * FROM PETSALE;
+                                 
+TRUNCATE TABLE PET ;
+SELECT * FROM PET;
+
+DROP TABLE PET;
+SELECT * FROM PET;
+
+*****************************************************************
+
+Database Used in this Lab
+The database used in this lab is an internal database.
+You will be working on a sample HR database.
+This HR database schema consists of 5 tables called EMPLOYEES, JOB_HISTORY, JOBS, DEPARTMENTS and LOCATIONS.
+Each table has a few rows of sample data. 
+
+                                 Objectives
+                                     Create a database.
+                                     Create tables using SQL scripts
+                                     Load data into tables
+
+Exercise 1: Create tables using SQL scripts
+In this exercise, you will learn how to execute a script containing the CREATE TABLE commands for all the tables rather than create each table manually by typing the DDL commands in the SQL editor.
+
+Download the script file to your computer:
+HR_Database_Create_Tables_Script.sql          
+https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-DB0201EN-SkillsNetwork/labs/MySQL/week2/HR_Database_Create_Tables_Script.sql
+
+Select the HR database. Later click on the Import tab.
+Click on choose file. Browse for the file and upload it .
+Later scroll down and click on Go.
+
+Exercise 2: Load data into tables
+In this exercise, you will learn how data can be loaded into MySQL. You could manually insert each row into the table one by one, but that would take a long time. 
+Instead, MySQL (and almost every other database) allows you to load data from .CSV files.
+The steps below explain the process of loading data into the tables you created earlier in exercise 1.
+
+Download the 5 .csv files below to your local computer:
+
+Departments.csv   https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-DB0201EN-SkillsNetwork/labs/Labs_Coursera_V5/datasets/HR_Database/Departments.csv
+Employees.csv     https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-DB0201EN-SkillsNetwork/labs/MySQL/week2/data/Employees_updated.csv
+Jobs.csv          https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-DB0201EN-SkillsNetwork/labs/Labs_Coursera_V5/datasets/HR_Database/Jobs.csv
+Locations.csv     https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-DB0201EN-SkillsNetwork/labs/Labs_Coursera_V5/datasets/HR_Database/Locations.csv
+JobsHistory.csv   https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-DB0201EN-SkillsNetwork/labs/MySQL/week2/data/JobsHistory.csv
+                                 
+To load each table do the following steps.
+
+Select each table .
+Click on Import tab.
+Select the csv file and click on Go to load the csv file.
+
+A database is a repository of data that provides functionality for adding, modifying, and querying the data. 
+SQL is a language used to query or retrieve data from a relational database. 
+The Relational Model is the most used data model for databases because it allows for data independence. 
+The primary key of a relational table uniquely identifies each tuple or row, preventing duplication of data and providing a way of defining relationships between tables. 
+SQL statements fall into two different categories: Data Definition Language (DDL) statements and Data Manipulation Language (DML) statements.
