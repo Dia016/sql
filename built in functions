@@ -1,0 +1,130 @@
+An aggregate function takes a collection of like values, such as all of the values in a column, as input, and returns a single value or null. 
+Examples of aggregate functions include:
+sum, minimum, maximum, average, etc.
+
+#SUM
+SUM(column_name)
+select sum(cost) as sum_of_cost from petrescue
+
+# MIN MAX
+select max(quantity) from petrescue
+select min(id) from petrescue where animal="Dog"
+
+#AVG()
+
+#scalar and string functions
+*Round() Length() Ucase() Lcase()*
+
+# DATE & TIME
+DATE: YYYYMMDD
+TIME: HHMMSS
+TIMESTAMP:YYYYXXDDHHMMSSZZZZZZ
+            X=Months
+            Z=Milliseconds
+
+--------------------------------------------------------------------------------
+Aggregate Functions
+Query A1: Enter a function that calculates the total cost of all animal rescues in the PETRESCUE table.
+select SUM(COST) from PETRESCUE;
+
+Query A2: Enter a function that displays the total cost of all animal rescues in the PETRESCUE table in a column called SUM_OF_COST.
+select SUM(COST) AS SUM_OF_COST from PETRESCUE;
+
+Query A3: Enter a function that displays the maximum quantity of animals rescued.
+select MAX(QUANTITY) from PETRESCUE;
+
+Query A4: Enter a function that displays the average cost of animals rescued.
+select AVG(COST) from PETRESCUE;
+
+Query A5: Enter a function that displays the average cost of rescuing a dog.
+Hint - Bear in my the cost of rescuing one dog on day, is different from another day. So you will have to use and average of averages.
+select AVG(COST/QUANTITY) from PETRESCUE where ANIMAL = 'Dog';
+
+
+
+Scalar and String Functions
+Query B1: Enter a function that displays the rounded cost of each rescue.
+select ROUND(COST) from PETRESCUE;
+
+Query B2: Enter a function that displays the length of each animal name.
+select LENGTH(ANIMAL) from PETRESCUE;
+
+Query B3: Enter a function that displays the animal name in each rescue in uppercase.
+select UCASE(ANIMAL) from PETRESCUE;
+
+Query B4: Enter a function that displays the animal name in each rescue in uppercase without duplications.
+select DISTINCT(UCASE(ANIMAL)) from PETRESCUE;
+
+Query B5: Enter a query that displays all the columns from the PETRESCUE table, where the animal(s) rescued are cats. Use cat in lower case in the query.
+select * from PETRESCUE where LCASE(ANIMAL) = 'cat';
+
+
+
+
+ Date and Time Functions
+Query C1: Enter a function that displays the day of the month when cats have been rescued.
+select DAY(RESCUEDATE) from PETRESCUE where ANIMAL = 'Cat';
+
+Query C2: Enter a function that displays the number of rescues on the 5th month.
+select SUM(QUANTITY) from PETRESCUE where MONTH(RESCUEDATE)='05';
+
+Query C3: Enter a function that displays the number of rescues on the 14th day of the month.
+select SUM(QUANTITY) from PETRESCUE where DAY(RESCUEDATE)='14';
+
+Query C4: Animals rescued should see the vet within three days of arrivals. Enter a function that displays the third day from each rescue.
+select DATE_add(RESCUEDATE, INTERVAL 3 DAY) from PETRESCUE;
+
+Query C5: Enter a function that displays the length of time the animals have been rescued; the difference between today’s date and the rescue date.
+select DATEDIFF(CURRENT_TIMESTAMP,RESCUEDATE) from PETRESCUE;
+
+
+
+The sub-select doesn't just have to go in the WHERE clause. 
+It can also go in other parts of the query, such as in the list of columns to be selected. 
+Such sub-queries are called column expressions
+
+*select EMP_ID, SALARY, (select AVG(SALARY) from employees ) AS AVG_SALARY from employees.*
+Another option is to make the sub-query be part of the FROM clause.
+
+Sub-queries like these are sometimes called derived tables or table expressions. 
+Sub-queries like these are sometimes called derived tables or table expressions. 
+Because the outer query uses the results of the sub-query as a data source.
+
+
+`````````````````````````````````````````````````````````````````````````````````
+How does a typical Nested SELECT statement syntax look?
+SELECT column_name [, column_name ]
+FROM table1 [, table2 ]
+WHERE column_name OPERATOR
+   (SELECT column_name [, column_name ]
+   FROM table1 [, table2 ]
+   WHERE condition);
+``````````````````````````````````````````````````````````````````````````````````
+Exercise:
+Execute a failing query (i.e. one which gives an error) to retrieve all employees records whose salary is lower than the average salary.
+select * 
+from EMPLOYEES 
+where salary < AVG(salary);
+
+Execute a working query using a sub-select to retrieve all employees records whose salary is lower than the average salary.
+select EMP_ID, F_NAME, L_NAME, SALARY 
+from EMPLOYEES
+where SALARY < (select AVG(SALARY) 
+                from EMPLOYEES);
+
+Execute a failing query (i.e. one which gives an error) to retrieve all employees records with EMP_ID, SALARY and maximum salary as MAX_SALARY in every row.
+select EMP_ID, SALARY, MAX(SALARY) AS MAX_SALARY 
+from EMPLOYEES;		
+
+Execute a Column Expression that retrieves all employees records with EMP_ID, SALARY and maximum salary as MAX_SALARY in every row.
+select EMP_ID, SALARY, ( select MAX(SALARY) from EMPLOYEES ) AS MAX_SALARY 
+from EMPLOYEES;
+
+Execute a Table Expression for the EMPLOYEES table that excludes columns with sensitive employee data (i.e. does not include columns: SSN, B_DATE, SEX, ADDRESS, SALARY).
+select * from ( select EMP_ID, F_NAME, L_NAME, DEP_ID from EMPLOYEES) AS EMP4ALL;
+
+# WORKING WITH MULTIPLE TABLES
+Sub-queries
+Implicit Join
+Join Operators( INNER JOIN, OUTER JOIN,etc)
+
