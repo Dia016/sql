@@ -128,3 +128,63 @@ Sub-queries
 Implicit Join
 Join Operators( INNER JOIN, OUTER JOIN,etc)
 
+# Wroking with multiple tables
+ we specify two tables in the FROM clause.
+This results in a table join, but note we are not explicitly using the join operator. 
+The resulting join in this example is called a full join or Cartesian join, 
+because every row in the first table is joined with every row in the second table. 
+If you examine the results set, you will see more rows than in both tables individually.
+
+Let's look at an example where we limit the result set to only rows with matching department IDs. Select star from employees, departments, where employees department_ID equals departments, department_ID_department.
+we prefix the name of the column with the name of the table. This is to fully qualify the column name, since it's possible that different tables could have some column names that are exactly the same. Since the table names can sometimes be long, we can use shorter aliases for table names as shown here.
+
+Select star from employees E, departments D, where E department_ID equals D department_ID_department. Here, we define the alias E for employees table and D for departments table, and then use these aliases in the WHERE clause.
+ If we wanted to see the department name for each employee, we would enter the code as follows: 
+
+Select Employee_ID, Department_Name from employees E, departments D, where E department_ID = D department_ID_department. 
+
+Accessing Multiple Tables with Sub-Queries
+Problem:
+Retrieve only the EMPLOYEES records that correspond to jobs in the JOBS table.
+select * from EMPLOYEES where JOB_ID IN (select JOB_IDENT from JOBS);
+
+Retrieve only the list of employees whose JOB_TITLE is Jr. Designer.
+select * from EMPLOYEES where JOB_ID IN (select JOB_IDENT from JOBS where JOB_TITLE= 'Jr. Designer');
+
+Retrieve JOB information and who earn more than $70,000.
+select JOB_TITLE, MIN_SALARY,MAX_SALARY,JOB_IDENT from JOBS 
+where JOB_IDENT IN (select JOB_ID from EMPLOYEES where SALARY > 70000 );
+
+Retrieve JOB information and list of employees whose birth year is after 1976.
+select JOB_TITLE, MIN_SALARY,MAX_SALARY,JOB_IDENT from JOBS
+where JOB_IDENT IN (select JOB_ID from EMPLOYEES where YEAR(B_DATE)>1976 );
+
+Retrieve JOB information and list of female employees whose birth year is after 1976.
+select JOB_TITLE, MIN_SALARY,MAX_SALARY,JOB_IDENT from JOBS 
+where JOB_IDENT IN (select JOB_ID from EMPLOYEES where YEAR(B_DATE)>1976 and SEX='F' );
+
+
+Accessing Multiple Tables with Implicit Joins
+Problem:
+select * from EMPLOYEES, JOBS;
+
+Retrieve only the EMPLOYEES records that correspond to jobs in the JOBS table.
+select * from EMPLOYEES, JOBS where EMPLOYEES.JOB_ID = JOBS.JOB_IDENT;
+
+Redo the previous query, using shorter aliases for table names.
+select * from EMPLOYEES E, JOBS J where E.JOB_ID = J.JOB_IDENT;
+
+Redo the previous query, but retrieve only the Employee ID, Employee Name and Job Title.
+select EMP_ID,F_NAME,L_NAME, JOB_TITLE from EMPLOYEES E, JOBS J where E.JOB_ID = J.JOB_IDENT;
+
+Redo the previous query, but specify the fully qualified column names with aliases in the SELECT clause.
+select E.EMP_ID,E.F_NAME,E.L_NAME, J.JOB_TITLE from EMPLOYEES E, JOBS  J where E.JOB_ID = J.JOB_IDENT;
+
+***********************************************************************************************************************************************************************************************************
+Most databases come with built-in functions that you can use in SQL statements to perform operations on data within the database itself.
+When you work with large datasets, you may save time by using built-in functions rather than first retrieving the data into your application and then executing functions on the retrieved data.
+You can use sub-queries to form more powerful queries than otherwise.
+You can use a sub-select expression to evaluate some built-in aggregate functions like the average function. 
+Derived tables or table expressions are sub-queries where the outer query uses the results of the sub-query as a data source.
+************************************************************************************************************************************************************************************************************
+
